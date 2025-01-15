@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useUserSessionStore from "./stores/useSessionStore";
+import useUserSessionStore from "./stores/useUserSessionStore";
 import LandingPage from "./pages/LandingPage";
 
 function App() {

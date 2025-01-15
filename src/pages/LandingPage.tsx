@@ -9,7 +9,7 @@ import {
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { BookOpen } from "lucide-react";
-import useUserSessionStore from "../stores/useSessionStore";
+import useUserSessionStore from "../stores/useUserSessionStore";
 import { useState } from "react";
 
 export default function LandingPage() {
