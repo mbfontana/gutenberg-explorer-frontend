@@ -12,7 +12,7 @@ import { BookOpen } from "lucide-react";
 import useUserSessionStore from "../stores/useUserSessionStore";
 import { useState } from "react";
 
-export default function LandingPage() {
+const LandingPage = () => {
   const [formName, setFormName] = useState("");
   const { name, setName } = useUserSessionStore();
 
@@ -65,4 +65,6 @@ export default function LandingPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default LandingPage;
