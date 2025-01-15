@@ -1,5 +1,13 @@
+import { useEffect } from "react";
+import useUserSessionStore from "./stores/useSessionStore";
+import LandingPage from "./pages/LandingPage";
+
 function App() {
-  return <div>Hi</div>;
+  const { name } = useUserSessionStore();
+
+  useEffect(() => {}, []);
+
+  return <div>{name ? <>HI, {name}</> : <LandingPage />}</div>;
 }
 
 export default App;
