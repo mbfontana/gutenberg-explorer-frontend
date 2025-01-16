@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../components/ui/card";
+import { BookResponse } from "../api/books";
 import {
   Carousel,
   CarouselContent,
@@ -6,24 +6,36 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../components/ui/carousel";
+import useSessionStore from "../stores/useSessionStore";
 
 const BooksCarousel = () => {
+  const { setCurrentBook, viewedBooks } = useSessionStore();
+
+  const handleClick = (book: BookResponse) => {
+    setCurrentBook(book);
+  };
+
   return (
     <Carousel
       opts={{
         align: "start",
       }}
-      className="w-full max-w-sm"
+      className="w-full max-w-5xl mx-auto"
     >
       <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-3xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
+        {viewedBooks.map((book, index) => (
+          <CarouselItem
+            key={index}
+            className="md:basis-1/2 lg:basis-1/5 hover:cursor-pointer"
+            onClick={() => handleClick(book)}
+          >
+            <div className="h-full">
+              <img
+                src={book.cover}
+                alt={`Book Cover: ${book.title}`}
+                loading="lazy"
+                className="h-full"
+              />
             </div>
           </CarouselItem>
         ))}
