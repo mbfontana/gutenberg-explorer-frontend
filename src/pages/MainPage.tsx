@@ -1,10 +1,5 @@
 import { LogOut } from "lucide-react";
-import {
-  BookResponse,
-  getBookById,
-  getMetadataById,
-  getTextById,
-} from "../api/books";
+import { BookResponse, getMetadataById, getTextById } from "../api/books";
 import BooksCarousel from "../components/BooksCarousel";
 import ScrollableCard from "../components/ScrollableCard";
 import SearchBar from "../components/SearchBar";
