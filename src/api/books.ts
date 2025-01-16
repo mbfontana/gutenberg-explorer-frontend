@@ -1,25 +1,34 @@
 import API from "./AuthenticatedAxios";
 
 type Author = {
-  name: string;
-  birthdate: string;
-  deathdate: string;
+  name?: string;
+  birthdate?: string;
+  deathdate?: string;
 };
 
 interface MetadataResponse {
-  publisher: string;
-  issuedDate: string;
-  rights: string;
-  title: string;
-  language: string;
-  author: Author;
-  flag: string;
+  publisher?: string;
+  issuedDate?: string;
+  rights?: string;
+  title?: string;
+  language?: string;
+  author?: Author;
+  flag?: string;
+  cover?: string;
 }
 
-export const getBookById = (id: number) => {
-  return API.get<string>(`/books/${id}`);
+export interface BookResponse extends MetadataResponse {
+  text?: string;
+}
+
+export const getBookById = (id: number | string) => {
+  return API.get<BookResponse>(`/book/${id}`);
 };
 
-export const getMetadataById = (id: number) => {
-  return API.get<MetadataResponse>(`/books/${id}/metadata`);
+export const getTextById = (id: number | string) => {
+  return API.get<string>(`/book/${id}/text`);
+};
+
+export const getMetadataById = (id: number | string) => {
+  return API.get<MetadataResponse>(`/book/${id}/metadata`);
 };

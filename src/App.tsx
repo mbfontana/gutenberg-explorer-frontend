@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import useUserSessionStore from "./stores/useUserSessionStore";
+import useSessionStore from "./stores/useSessionStore";
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
 
 function App() {
-  const { name } = useUserSessionStore();
+  const { name } = useSessionStore();
 
   useEffect(() => {}, []);
 
