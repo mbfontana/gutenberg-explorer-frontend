@@ -4,32 +4,17 @@ import { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Search } from "lucide-react";
-import useSessionStore from "../stores/useSessionStore";
-import { getBookById } from "../api/books";
 
-const SearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState<number | string>("");
-  const { setCurrentBook, addViewedBook } = useSessionStore();
+interface SearchBarProps {
+  handleSearch: (e: React.FormEvent, searchQuery: string) => void;
+}
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Implement your search logic here
-    console.log("Searching for:", searchQuery);
-
-    const response = await getBookById(searchQuery);
-
-    if (response.status === 200) {
-      const book = response.data;
-      setCurrentBook(book);
-      addViewedBook(book);
-    } else {
-      console.error("Error fetching book:", response);
-    }
-  };
+const SearchBar = ({ handleSearch }: SearchBarProps) => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   return (
     <form
-      onSubmit={handleSearch}
+      onSubmit={(e: React.FormEvent) => handleSearch(e, searchQuery)}
       className="flex w-full max-w-sm items-center space-x-2"
     >
       <Input

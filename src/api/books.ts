@@ -21,14 +21,14 @@ export interface BookResponse extends MetadataResponse {
   text?: string;
 }
 
-export const getBookById = (id: number | string) => {
+export const getBookById = (id: string) => {
   return API.get<BookResponse>(`/book/${id}`);
 };
 
-export const getTextById = (id: number | string) => {
+export const getTextById = (id: string) => {
   return API.get<string>(`/book/${id}/text`);
 };
 
-export const getMetadataById = (id: number | string) => {
+export const getMetadataById = (id: string) => {
   return API.get<MetadataResponse>(`/book/${id}/metadata`);
 };
