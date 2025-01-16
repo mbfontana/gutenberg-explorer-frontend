@@ -6,7 +6,8 @@ type Author = {
   deathdate?: string;
 };
 
-interface MetadataResponse {
+export interface MetadataResponse {
+  id?: string,
   publisher?: string;
   issuedDate?: string;
   rights?: string;
