@@ -1,15 +1,15 @@
 // store/useSessionStore.ts
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { BookResponse } from "../api/books";
+import { MetadataResponse } from "../api/books";
 
 interface UserSessionState {
   name: string | null;
-  viewedBooks: BookResponse[];
-  currentBook: BookResponse | null;
+  viewedBooks: MetadataResponse[];
+  currentBook: MetadataResponse | null;
   setName: (name: string) => void;
-  addViewedBook: (book: BookResponse) => void;
-  setCurrentBook: (book: BookResponse) => void;
+  addViewedBook: (book: MetadataResponse) => void;
+  setCurrentBook: (book: MetadataResponse) => void;
   clearSession: () => void;
 }
 
@@ -20,7 +20,7 @@ const useSessionStore = create<UserSessionState>()(
       viewedBooks: [],
       currentBook: null,
       setName: (name: string) => set({ name }),
-      addViewedBook: (book: BookResponse) => {
+      addViewedBook: (book: MetadataResponse) => {
         const currentBooks = get().viewedBooks;
         const isBookAlreadyViewed = currentBooks.some(
           (currentBook) => currentBook.title === book.title
@@ -29,7 +29,7 @@ const useSessionStore = create<UserSessionState>()(
           set({ viewedBooks: [...currentBooks, book] });
         }
       },
-      setCurrentBook: (book: BookResponse) => set({ currentBook: book }),
+      setCurrentBook: (book: MetadataResponse) => set({ currentBook: book }),
       clearSession: () =>
         set({ name: null, viewedBooks: [], currentBook: null }),
     }),

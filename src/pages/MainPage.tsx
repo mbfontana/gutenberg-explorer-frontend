@@ -1,11 +1,16 @@
 import { LogOut } from "lucide-react";
-import { BookResponse, getBookById } from "../api/books";
+import {
+  BookResponse,
+  getBookById,
+  getMetadataById,
+  getTextById,
+} from "../api/books";
 import BooksCarousel from "../components/BooksCarousel";
 import ScrollableCard from "../components/ScrollableCard";
 import SearchBar from "../components/SearchBar";
 import useSessionStore from "../stores/useSessionStore";
 import { Button } from "../components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MainPage = () => {
   const {
@@ -18,11 +23,28 @@ const MainPage = () => {
   } = useSessionStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
 
   const handleLogout = () => {
     clearSession();
     window.location.href = "/";
   };
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      try {
+        setError(false);
+        setIsLoading(true);
+        const responseContent = await getTextById(currentBook!.id as string);
+        setContent(responseContent.data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchBook();
+  }, [currentBook]);
 
   const handleSearch = async (e: React.FormEvent, searchQuery: string) => {
     e.preventDefault();
@@ -30,10 +52,15 @@ const MainPage = () => {
     try {
       setError(false);
       setIsLoading(true);
-      const response = await getBookById(searchQuery);
+
+      const response = await getMetadataById(searchQuery);
       const book = response.data;
+
       setCurrentBook(book);
       addViewedBook(book);
+
+      const responseContent = await getTextById(searchQuery);
+      setContent(responseContent.data);
     } catch (error) {
       setError(true);
     } finally {
@@ -58,6 +85,7 @@ const MainPage = () => {
           {currentBook && (
             <ScrollableCard
               {...(currentBook as BookResponse)}
+              text={content}
               isLoading={isLoading}
               error={error}
             />
