@@ -6,6 +6,13 @@ type BookDetailsProps = Omit<ScrollableCardProps, "isLoading" | "error"> & {
   handleActionClick: (action: string) => void;
 };
 
+const actions = [
+  { displayName: "KEY WORDS", action: "keyWords" },
+  { displayName: "PLOT SUMMARY", action: "plotSummary" },
+  { displayName: "SENTIMENT", action: "sentiment" },
+  { displayName: "CRITIQUE", action: "critique" },
+];
+
 const BookDetails = ({
   title,
   author,
@@ -21,18 +28,11 @@ const BookDetails = ({
       <div className="flex items-center justify-between">
         <div className="text-xl font-semibold">{title}</div>
         <div className="flex space-x-2">
-          <Button onClick={() => handleActionClick("keyWords")}>
-            KEY WORDS
-          </Button>
-          <Button onClick={() => handleActionClick("plotSummary")}>
-            PLOT SUMMARY
-          </Button>
-          <Button onClick={() => handleActionClick("sentiment")}>
-            SENTIMENT
-          </Button>
-          <Button onClick={() => handleActionClick("critique")}>
-            CRITIQUE
-          </Button>
+          {actions.map(({ displayName, action }) => (
+            <Button onClick={() => handleActionClick(action)}>
+              {displayName}
+            </Button>
+          ))}
         </div>
       </div>
 

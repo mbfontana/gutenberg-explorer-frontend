@@ -1,3 +1,11 @@
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "./ui/dialog";
 import { BookResponse } from "../api/books";
 import { getCompletion } from "../api/llms";
 import useSessionStore from "../stores/useSessionStore";
@@ -5,6 +13,7 @@ import BookDetails from "./BookDetails";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import { Card, CardContent } from "./ui/card";
+import ReactMarkdown from "react-markdown";
 
 export type ScrollableCardProps = BookResponse & {
   isLoading?: boolean;
@@ -19,13 +28,22 @@ const ScrollableCard = ({
 }: ScrollableCardProps) => {
   const { currentBook } = useSessionStore();
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogResponse, setDialogResponse] = useState<string | null>(null);
+  const [isDialogLoading, setIsDialogLoading] = useState(false);
+
   const handleActionClick = async (action: string) => {
     try {
-      console.log(currentBook!.id);
+      setDialogOpen(true);
+      setIsDialogLoading(true);
       const response = await getCompletion(action, currentBook!.id as string);
-      console.log("Completion response:", response);
+      setDialogResponse(response.data);
     } catch (error) {
       console.error("Error fetching completion:", error);
+      setDialogResponse("An error occurred while fetching the response.");
+      setDialogOpen(true);
+    } finally {
+      setIsDialogLoading(false);
     }
   };
 
@@ -54,8 +72,40 @@ const ScrollableCard = ({
         style={{ height: "750px" }}
         className="overflow-y-auto bg-gray-50 text-gray-700 leading-relaxed"
       >
-        <p className="mt-4">{text}</p>
+        <ReactMarkdown className="prose mt-4">{text || ""}</ReactMarkdown>
       </CardContent>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-h-[80vh] max-w-[50vw] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>AI Text Analysis</DialogTitle>
+          </DialogHeader>
+          {isDialogLoading ? (
+            <div className="mt-12">
+              <Spinner />
+            </div>
+          ) : (
+            <Card className="w-full bg-white p-4">
+              <CardContent
+                className="overflow-y-auto leading-relaxed"
+                style={{ maxHeight: "600px" }}
+              >
+                <ReactMarkdown className="prose">
+                  {dialogResponse || ""}
+                </ReactMarkdown>
+              </CardContent>
+            </Card>
+          )}
+          <DialogFooter>
+            <button
+              className="px-4 py-2 bg-black text-white rounded hover:bg-blue-600"
+              onClick={() => setDialogOpen(false)}
+            >
+              Close
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
