@@ -10,6 +10,7 @@ interface UserSessionState {
   setName: (name: string) => void;
   addViewedBook: (book: BookResponse) => void;
   setCurrentBook: (book: BookResponse) => void;
+  clearSession: () => void;
 }
 
 const useSessionStore = create<UserSessionState>()(
@@ -29,6 +30,8 @@ const useSessionStore = create<UserSessionState>()(
         }
       },
       setCurrentBook: (book: BookResponse) => set({ currentBook: book }),
+      clearSession: () =>
+        set({ name: null, viewedBooks: [], currentBook: null }),
     }),
 
     {

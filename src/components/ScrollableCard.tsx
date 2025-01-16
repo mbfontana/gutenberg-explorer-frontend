@@ -46,7 +46,7 @@ const ScrollableCard = ({
         style={{ height: "750px" }}
         className="overflow-y-auto bg-gray-50 text-gray-700 leading-relaxed"
       >
-        <p>{text}</p>
+        <p className="mt-4">{text}</p>
       </CardContent>
     </Card>
   );

@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 import useSessionStore from "../stores/useSessionStore";
 import { getBookById } from "../api/books";
 
-export function SearchBar() {
+const SearchBar = () => {
   const [searchQuery, setSearchQuery] = useState<number | string>("");
   const { setCurrentBook, addViewedBook } = useSessionStore();
 
@@ -45,4 +45,6 @@ export function SearchBar() {
       </Button>
     </form>
   );
-}
+};
+
+export default SearchBar;
