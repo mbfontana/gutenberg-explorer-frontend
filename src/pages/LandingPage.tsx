@@ -9,18 +9,16 @@ import {
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { BookOpen } from "lucide-react";
-import useUserSessionStore from "../stores/useUserSessionStore";
+import useSessionStore from "../stores/useSessionStore";
 import { useState } from "react";
 
 const LandingPage = () => {
   const [formName, setFormName] = useState("");
-  const { name, setName } = useUserSessionStore();
+  const { setName } = useSessionStore();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setName(formName);
-    // Here you would typically navigate to the main app or update app state
-    console.log(`Welcome, ${name}!`);
   };
 
   return (
