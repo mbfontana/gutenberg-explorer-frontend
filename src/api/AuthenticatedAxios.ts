@@ -12,6 +12,6 @@ const createClient = (baseURL: string) => {
   return client;
 };
 
-const API = createClient("http://localhost:3001");
+const API = createClient("https://gutenberg-explorer-backend.onrender.com");
 
 export default API;
