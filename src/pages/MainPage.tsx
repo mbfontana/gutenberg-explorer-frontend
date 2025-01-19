@@ -45,24 +45,22 @@ const MainPage = () => {
   const handleSearch = async (e: React.FormEvent, searchQuery: string) => {
     e.preventDefault();
 
+    setError(false);
+    setIsLoading(true);
+
     try {
-      if (!currentBook) {
-        setFirstLoading(true);
-      } else {
-        setFirstLoading(false);
-      }
+      setFirstLoading(!currentBook);
 
-      setError(false);
-      setIsLoading(true);
+      const [responseText, responseMetadata] = await Promise.all([
+        getTextById(searchQuery),
+        getMetadataById(searchQuery),
+      ]);
 
-      const response = await getMetadataById(searchQuery);
-      const book = response.data;
+      setContent(responseText.data);
 
+      const book = responseMetadata.data;
       setCurrentBook(book);
       addViewedBook(book);
-
-      const responseContent = await getTextById(searchQuery);
-      setContent(responseContent.data);
     } catch (error) {
       setError(true);
     } finally {
