@@ -28,9 +28,10 @@ const MainPage = () => {
 
   useEffect(() => {
     const fetchBook = async () => {
+      setError(false);
+      setIsLoading(true);
+
       try {
-        setError(false);
-        setIsLoading(true);
         const responseContent = await getTextById(currentBook!.id as string);
         setContent(responseContent.data);
       } catch (error) {
