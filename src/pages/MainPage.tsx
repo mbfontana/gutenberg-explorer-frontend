@@ -19,6 +19,7 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
+  const [firstLoading, setFirstLoading] = useState<boolean>(false);
 
   const handleLogout = () => {
     clearSession();
@@ -45,6 +46,12 @@ const MainPage = () => {
     e.preventDefault();
 
     try {
+      if (!currentBook) {
+        setFirstLoading(true);
+      } else {
+        setFirstLoading(false);
+      }
+
       setError(false);
       setIsLoading(true);
 
@@ -77,7 +84,7 @@ const MainPage = () => {
           <SearchBar handleSearch={handleSearch} />
         </div>
         <div>
-          {currentBook && (
+          {(currentBook || firstLoading) && (
             <ScrollableCard
               {...(currentBook as BookResponse)}
               text={content}
